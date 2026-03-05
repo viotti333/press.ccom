@@ -3,6 +3,8 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- 关键移动视口设置：移动端正确缩放 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>中央音乐学院出版社</title>
     <meta name="pageType" content="1">
     <meta name="pageTitle" content="中央音乐学院出版社">
@@ -18,7 +20,8 @@
     <link rel="stylesheet" type="text/css" href="_sitegray/_sitegray_d.css" />
     <!--[if lt IE 9]><script src="js/html5.js" type="text/javascript"></script><![endif]-->
 
-    <!-- New design language: clean, purple (#7a1d41), white, spacious -->
+    <!-- Font Awesome 6 (free) for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* ----- RESET OVERRIDES (preserve functionality, apply new look) ----- */
         :root {
@@ -121,14 +124,14 @@
             margin: 0;
             display: flex;
             align-items: center;
-            max-width: 200px; /* adjust as needed */
+            max-width: 200px;
         }
         .logo svg {
             width: 100%;
             height: auto;
         }
 
-        /* Navigation menu */
+        /* Navigation menu (桌面版默认样式) */
         #header .simple-drop-down-menu {
             display: flex;
             gap: 2rem;
@@ -147,7 +150,7 @@
         #header .simple-drop-down-menu li a {
             color: var(--gray-dark);
             font-weight: 500;
-            padding: 0.5rem 0rem;
+            padding: 0.5rem 0.5rem;
             border-bottom: 2px solid transparent;
             background: transparent;
             white-space: nowrap;
@@ -159,7 +162,7 @@
             border-bottom-color: var(--purple);
             background: transparent;
         }
-        /* Dropdown */
+        /* Dropdown (桌面版) */
         #header .simple-drop-down-menu li ul {
             background: var(--white);
             border: 1px solid var(--gray-mid);
@@ -189,7 +192,23 @@
             background: var(--gray-light);
         }
 
-        /* Search */
+        /* 汉堡菜单按钮 (默认桌面隐藏) */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--purple);
+            line-height: 1;
+            transition: transform 0.2s;
+        }
+        .mobile-menu-toggle:hover {
+            color: var(--purple-dark);
+        }
+
+        /* 搜索区域容器，便于移动端布局 */
+        .search-wrap {
+            display: contents; /* 保持原有布局，方便flex排序 */
+        }
         #appu1 {
             display: flex;
             gap: 0.5rem;
@@ -223,10 +242,10 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         .slideBox .hd ul li {
-            background: var(--gray-mid);
+            background: transparent;
         }
         .slideBox .hd ul li.on {
-            background: var(--purple);
+            background: transparent;
         }
 
         /* Main content areas */
@@ -316,11 +335,22 @@
             color: var(--purple);
         }
 
-        /* Footer */
+        /* Footer — 紫色背景 + 白色文字/链接 */
         .footer {
-            background-color: var(--gray-light);
+            background-color: var(--purple);
             border-top: 0px solid var(--gray-mid);
             padding: 3rem 0 2rem;
+        }
+        .footer, .footer p, .footer .copright, .footer .copright p, 
+        .footer .endrwm ul li span, .footer a {
+            color: #ffffff !important;
+        }
+        .footer a {
+            border-bottom-color: rgba(255,255,255,0.3);
+        }
+        .footer a:hover {
+            color: #f0f0f0 !important;
+            border-bottom-color: #ffffff;
         }
         .w1200 {
             max-width: 1280px;
@@ -332,7 +362,6 @@
             align-items: flex-start;
         }
         .copright {
-            color: #555;
             font-size: 0.95rem;
         }
         .endrwm ul {
@@ -353,33 +382,153 @@
         }
         .endrwm ul li span {
             display: block;
-            color: var(--purple);
             margin-top: 0.5rem;
         }
 
-        /* Responsive */
+        /* ========= 移动端适配 + 菜单 ========= */
         @media (max-width: 768px) {
             #banner {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            #header .simple-drop-down-menu {
+                display: flex;
                 flex-wrap: wrap;
-                gap: 1rem;
+                align-items: center;
+                padding: 0.8rem 1rem;
+                gap: 0.5rem;
+            }
+            /* logo order:1, 自动伸缩 */
+            .logo {
+                order: 1;
+                flex: 1;
+                max-width: 160px;
+            }
+            /* 汉堡按钮 order:2，显示，右侧 */
+            .mobile-menu-toggle {
+                order: 2;
+                display: block;
+                margin-left: auto;
+                font-size: 2rem;
+            }
+            /* 搜索包装 order:3，宽度100% */
+            .search-wrap {
+                order: 3;
+                width: 100%;
+                display: block;
+            }
+            #appu1 {
+                width: 100%;
+            }
+            #appu1 .qwss {
+                width: 100%;
+            }
+            #appu1 .tj {
+                width: 100%;
+                margin-top: 0.25rem;
+            }
+
+            /* 导航菜单默认隐藏，order:4，显示时flex列 */
+            #header .simple-drop-down-menu {
+                order: 4;
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 0.75rem;
+                background: var(--white);
+                padding: 1rem 0 0.5rem;
+                margin-top: 1rem;
+                margin-left: 0.5rem;
+                border-top: 0px solid var(--gray-mid);
+            }
+            #header .simple-drop-down-menu.mobile-show {
+                display: flex;
+            }
+            /* 移动端导航链接样式 */
+            #header .simple-drop-down-menu li {
+                width: 100%;
+            }
+            #header .simple-drop-down-menu li a {
+                white-space: normal;
+                padding: 0.5rem 0;
+                display: block;
+                border-bottom: none;
+                font-size: 1.1rem;
+            }
+            /* 二级菜单移动端展开 (取消绝对定位) */
+            #header .simple-drop-down-menu li ul {
+                position: static;
+                box-shadow: none;
+                border: none;
+                background: transparent;
+                padding: 0 0 0 1rem;
+                margin: 0.25rem 0 0 0;
+                display: block;  /* 始终显示 */
+            }
+            #header .simple-drop-down-menu li ul li a {
+                font-size: 1rem;
+                padding: 0.4rem 0;
+                color: var(--gray-dark);
+            }
+            #header .simple-drop-down-menu li ul li a:hover {
+                background: transparent;
+                color: var(--purple);
+            }
+            /* 调整标题大小 */
+            .i_title h1 {
+                padding-left: 1rem;
+                font-size: 1.4rem;
             }
             .i-part-news {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             .w1200 {
                 flex-direction: column;
                 gap: 2rem;
+                padding: 0 1rem;
+            }
+            .cctlist ul li {
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            .rzimg {
+                width: 80px;
+            }
+            .rzpp p {
+                font-size: 0.9rem;
+            }
+            .xsdw-left .bd ul.picList {
+                gap: 1rem;
             }
         }
 
-        /* Hide old irrelevant elements (not present in cleaned markup) */
-        #navigation-bar, #slider-bg, .full-width-wrapper, #abstract-bg {
-            /* not used in new structure */
+        @media (max-width: 480px) {
+            body {
+                font-size: 15px;
+            }
+            .i_title h1 {
+                font-size: 1.3rem;
+                padding-left: 0.8rem;
+            }
+            .xsdw-left .bd ul.picList {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.7rem;
+            }
+            .xsdw-left .bd ul.picList li {
+                padding: 0.5rem;
+            }
+            .xsdw-left .bd ul.picList .title a {
+                font-size: 0.8rem;
+            }
+            .endrwm ul li img {
+                width: 80px;
+                height: auto;
+            }
+            .endrwm ul {
+                gap: 1rem;
+                justify-content: center;
+            }
+            .footer {
+                padding: 2rem 0 1.5rem;
+                margin-left: auto;
+            }
         }
     </style>
 
@@ -389,10 +538,10 @@
     <!-- CustomerNO:77656262657232307e78475453515742000200014654 -->
 </head>
 <body>
-    <!-- Simplified header: no duplicate wrappers, logo SVG placed directly -->
+    <!-- Simplified header -->
     <header id="header">
         <div id="banner">
-            <!-- Real SVG logo (moved from head, no placeholder) -->
+            <!-- Real SVG logo -->
             <a href="index.htm" title="出版社" class="logo">
                 <svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 2732 552" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
@@ -459,8 +608,13 @@
                 </svg>
             </a>
 
-            <!-- Navigation menu -->
-            <ul class="simple-drop-down-menu">
+            <!-- 汉堡菜单按钮 (桌面隐藏，移动显示) -->
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <!-- 导航菜单 (桌面显示，移动由汉堡控制) -->
+            <ul class="simple-drop-down-menu" id="mainNavMenu">
                 <li class="home-page current"><a href="index.htm">首页</a></li>
                 <li class="listnava"><a href="hstj/xssd.htm" class="parent">好书推荐</a>
                     <ul style="display: none;">
@@ -482,8 +636,8 @@
                 <li class="listnava"><a href="gywm.htm">关于我们</a></li>
             </ul>
 
-            <!-- Search component (original) -->
-            <div>
+            <!-- 搜索组件包装，便于移动布局 -->
+            <div class="search-wrap">
                 <div id="divu1"></div>
                 <script type="text/html" id="htmlu1">
                     <div id="appu1">
@@ -545,7 +699,7 @@
         </div>
     </header>
 
-    <!-- Main content -->
+    <!-- Main content (保持不变) -->
     <div class="i-main">
         <!-- SLIDER -->
         <div id="slideBox" class="slideBox">
@@ -561,7 +715,7 @@
             </div>
         </div>
 
-        <!-- News sections -->
+        <!-- News sections (保持不变) -->
         <div class="i-part-news">
             <!-- Left column (好书推荐) -->
             <div class="i-part-news-left">
@@ -667,7 +821,7 @@
         </div>
     </div>
 
-    <!-- Footer (original links and content) -->
+    <!-- Footer (保持不变) -->
     <div class="end_link">
         <div class="w1200">
             <div class="end_link_left">
@@ -702,7 +856,8 @@
                 <p>版权所有： 中央音乐学院出版社</p>
                 <p>地址：北京市西城区鲍家街43号 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; 邮政编码：100031</p>
                 <p>电话：010-66418248</p>
-                <p>校内链接：<a href="https://www.ccom.edu.cn/" aa1061184aa="79791">中央音乐学院
+                <p>校内链接：<a href="https://www.ccom.edu.cn/" aa1061184aa="79791">中央音乐学院</a></p>
+                <p>京公网安备110402430057号  京ICP备05064625号</p>
             </div>
             <div class="endrwm">
                 <ul>
@@ -712,6 +867,27 @@
             </div>
         </div>
     </div>
+
+    <!-- 汉堡菜单交互脚本 (轻量) -->
+    <script>
+        (function() {
+            var toggle = document.getElementById('mobileMenuToggle');
+            var menu = document.getElementById('mainNavMenu');
+            if (toggle && menu) {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    menu.classList.toggle('mobile-show');
+                    // 切换图标
+                    var icon = toggle.querySelector('i');
+                    if (menu.classList.contains('mobile-show')) {
+                        icon.className = 'fas fa-times';
+                    } else {
+                        icon.className = 'fas fa-bars';
+                    }
+                });
+            }
+        })();
+    </script>
 
     <!-- Original scripts (body end) -->
     <script type="text/javascript" src="js/jquery.nivo.slider.js"></script>
