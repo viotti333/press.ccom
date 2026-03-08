@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <!-- 关键移动视口设置：移动端正确缩放 -->
+    <!-- 移动视口设置：正确缩放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>中央音乐学院出版社</title>
     <meta name="pageType" content="1">
@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="_sitegray/_sitegray_d.css" />
     <!--[if lt IE 9]><script src="js/html5.js" type="text/javascript"></script><![endif]-->
 
-    <!-- Font Awesome 6 (free) for icons -->
+    <!-- Font Awesome 6 (free) for icons (备用，图标为SVG) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* ----- RESET OVERRIDES (preserve functionality, apply new look) ----- */
@@ -129,9 +129,33 @@
         .logo svg {
             width: 100%;
             height: auto;
+            display: block;
         }
 
-        /* Navigation menu (桌面版默认样式) */
+        /* 汉堡菜单按钮 (桌面隐藏，移动显示) */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--purple);
+            line-height: 1;
+            transition: transform 0.2s;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-menu-toggle svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--purple);
+            display: block;
+        }
+        .mobile-menu-toggle:hover svg {
+            fill: var(--purple-dark);
+        }
+
+        /* 导航菜单 (桌面版) */
         #header .simple-drop-down-menu {
             display: flex;
             gap: 2rem;
@@ -192,22 +216,9 @@
             background: var(--gray-light);
         }
 
-        /* 汉堡菜单按钮 (默认桌面隐藏) */
-        .mobile-menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--purple);
-            line-height: 1;
-            transition: transform 0.2s;
-        }
-        .mobile-menu-toggle:hover {
-            color: var(--purple-dark);
-        }
-
-        /* 搜索区域容器，便于移动端布局 */
+        /* 搜索区域容器，移动端 */
         .search-wrap {
-            display: contents; /* 保持原有布局，方便flex排序 */
+            display: contents; 
         }
         #appu1 {
             display: flex;
@@ -335,11 +346,11 @@
             color: var(--purple);
         }
 
-        /* Footer — 紫色背景 + 白色文字/链接 */
+        /* Footer */
         .footer {
             background-color: var(--purple);
             border-top: 0px solid var(--gray-mid);
-            padding: 3rem 0 2rem;
+            padding: 2.5rem 0 2.5rem;
         }
         .footer, .footer p, .footer .copright, .footer .copright p, 
         .footer .endrwm ul li span, .footer a {
@@ -385,7 +396,7 @@
             margin-top: 0.5rem;
         }
 
-        /* ========= 移动端适配 + 菜单 ========= */
+        /* ========= 移动端适配、菜单 ========= */
         @media (max-width: 768px) {
             #banner {
                 display: flex;
@@ -400,12 +411,13 @@
                 flex: 1;
                 max-width: 160px;
             }
-            /* 汉堡按钮 order:2，显示，右侧 */
+            /* 汉堡按钮 order:2 */
             .mobile-menu-toggle {
                 order: 2;
-                display: block;
+                display: flex;
                 margin-left: auto;
-                font-size: 2rem;
+                width: 36px;
+                height: 36px;
             }
             /* 搜索包装 order:3，宽度100% */
             .search-wrap {
@@ -415,6 +427,7 @@
             }
             #appu1 {
                 width: 100%;
+                flex-wrap: wrap;
             }
             #appu1 .qwss {
                 width: 100%;
@@ -451,7 +464,7 @@
                 border-bottom: none;
                 font-size: 1.1rem;
             }
-            /* 二级菜单移动端展开 (取消绝对定位) */
+            /* 二级菜单移动端展开 */
             #header .simple-drop-down-menu li ul {
                 position: static;
                 box-shadow: none;
@@ -459,7 +472,7 @@
                 background: transparent;
                 padding: 0 0 0 1rem;
                 margin: 0.25rem 0 0 0;
-                display: block;  /* 始终显示 */
+                display: block;
             }
             #header .simple-drop-down-menu li ul li a {
                 font-size: 1rem;
@@ -470,7 +483,7 @@
                 background: transparent;
                 color: var(--purple);
             }
-            /* 调整标题大小 */
+            /* 标题大小 */
             .i_title h1 {
                 padding-left: 1rem;
                 font-size: 1.4rem;
@@ -608,12 +621,19 @@
                 </svg>
             </a>
 
-            <!-- 汉堡菜单按钮 (桌面隐藏，移动显示) -->
+            <!-- 汉堡菜单按钮 (桌面隐藏，移动显示)  -->
             <div class="mobile-menu-toggle" id="mobileMenuToggle">
-                <i class="fas fa-bars"></i>
+                <!-- hamburger icon SVG -->
+                <svg viewBox="0 0 50 50" width="100%" height="100%" fill="#7a1d41" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <path d="M5 8.5L45 8.5L45 13.5L5 13.5L5 8.5Z" fill="#7a1d41"/>
+                        <path d="M5 22.5L45 22.5L45 27.5L5 27.5L5 22.5Z" fill="#7a1d41"/>
+                        <path d="M5 36.5L45 36.5L45 41.5L5 41.5L5 36.5Z" fill="#7a1d41"/>
+                    </g>
+                </svg>
             </div>
 
-            <!-- 导航菜单 (桌面显示，移动由汉堡控制) -->
+            <!-- 导航菜单 (桌面显示，移动收至汉堡控制) -->
             <ul class="simple-drop-down-menu" id="mainNavMenu">
                 <li class="home-page current"><a href="index.htm">首页</a></li>
                 <li class="listnava"><a href="hstj/xssd.htm" class="parent">好书推荐</a>
@@ -636,7 +656,7 @@
                 <li class="listnava"><a href="gywm.htm">关于我们</a></li>
             </ul>
 
-            <!-- 搜索组件包装，便于移动布局 -->
+            <!-- 搜索组件包装 -->
             <div class="search-wrap">
                 <div id="divu1"></div>
                 <script type="text/html" id="htmlu1">
@@ -699,7 +719,7 @@
         </div>
     </header>
 
-    <!-- Main content (保持不变) -->
+    <!-- Main content -->
     <div class="i-main">
         <!-- SLIDER -->
         <div id="slideBox" class="slideBox">
@@ -715,7 +735,7 @@
             </div>
         </div>
 
-        <!-- News sections (保持不变) -->
+        <!-- News sections -->
         <div class="i-part-news">
             <!-- Left column (好书推荐) -->
             <div class="i-part-news-left">
@@ -821,7 +841,7 @@
         </div>
     </div>
 
-    <!-- Footer (保持不变) -->
+    <!-- Footer -->
     <div class="end_link">
         <div class="w1200">
             <div class="end_link_left">
@@ -868,21 +888,25 @@
         </div>
     </div>
 
-    <!-- 汉堡菜单交互脚本 (轻量) -->
+    <!-- 汉堡菜单交互脚本 -->
     <script>
         (function() {
             var toggle = document.getElementById('mobileMenuToggle');
             var menu = document.getElementById('mainNavMenu');
             if (toggle && menu) {
+                // 获取原始的SVG元素 (hamburger)
+                var originalSvg = toggle.innerHTML;
+                // 叉号SVG (cross)
+                var closeSvg = '<svg viewBox="0 0 50 50" width="100%" height="100%" fill="#7a1d41" xmlns="http://www.w3.org/2000/svg"><path d="M11.2234 7.5L42.5 38.7766L38.7766 42.5L7.5 11.2234L11.2234 7.5Z" fill="#7a1d41"/><path d="M7.5 38.7766L38.7766 7.50001L42.5 11.2234L11.2234 42.5L7.5 38.7766Z" fill="#7a1d41"/></svg>';
+                
                 toggle.addEventListener('click', function(e) {
                     e.preventDefault();
                     menu.classList.toggle('mobile-show');
                     // 切换图标
-                    var icon = toggle.querySelector('i');
                     if (menu.classList.contains('mobile-show')) {
-                        icon.className = 'fas fa-times';
+                        toggle.innerHTML = closeSvg;
                     } else {
-                        icon.className = 'fas fa-bars';
+                        toggle.innerHTML = originalSvg;
                     }
                 });
             }
